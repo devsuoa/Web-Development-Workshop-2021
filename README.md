@@ -26,7 +26,7 @@ A video of the setup process has been recorded for you if you get stuck. https:/
 - Run the installer once downloaded
 - Follow the installation steps
 - Open the windows command prompt (search for cmd)
-- Verify that node is installed by running `node --version`. The node version (e.g. v12.16.0) should be returned.
+- Verify that node is installed by running `node --version`. The node version (e.g. v14.16.1) should be returned.
 
 ## MacOS
 
@@ -57,6 +57,6 @@ brew cask install visual-studio-code
 brew install node
 ```
 
-- Verify that node is installed by running `node --version`. The node version (e.g. v12.16.0) should be returned.
+- Verify that node is installed by running `node --version`. The node version (e.g. v14.16.1) should be returned.
 
 ## This is the end of the pre-requisites! The steps below are for the practical, and you do NOT have to complete these right now (we'll go through them in the workshop)
