@@ -79,7 +79,7 @@ A component could be a class or a function. For this workshop we will only consi
 
 They are of the format:
 
-```js
+```jsx
 function Component() {
     return <div> </div>;
 }
@@ -91,7 +91,7 @@ This defines a React component called "Component" that shows a empty `<div>` on 
 
 We can use the component we just made in another component like so:
 
-```js
+```jsx
 import Component from "./path/to/component";
 
 function AnotherComponent() {
@@ -107,7 +107,7 @@ Lets make our first component: a Home Page component.
 
 Create a new folder in /src called Pages and another folder within /Pages called Home. This will contain our Home Component and styling pages. Then create a new file in /src/Pages/Home called Home.js
 
-```js
+```jsx
 function Home() {
     return (
         <div className="homeContainer">
@@ -135,7 +135,7 @@ If we want to show this on the page, we will import it in `App.js` and use the c
 
 e.g.
 
-```js
+```jsx
 import Home from "./Pages/Home/Home";
 
 function App() {
@@ -153,7 +153,7 @@ Because the functionality of the input element will be reused, lets make a custo
 
 Make a folder in /src called Components and a file inside called `Input.js`
 
-```js
+```jsx
 function Input() {
     return <input />;
 }
@@ -165,7 +165,7 @@ Lets use this component ins `Home.js` by:
 
 -   importing Input
 
-```js
+```jsx
 import Input from "../../Components/Input";
 ```
 
@@ -181,7 +181,7 @@ e.g.
 In this case, the prop `data` is passed in with the value `"asd"`. To access this prop within the component we make a parameter and simply access the properties of the props object passed in.
 e.g.
 
-```js
+```jsx
 function Header(props) {
     ...
     console.log(props.data)
@@ -195,7 +195,7 @@ In `Home.js`:
 
 -   change `<Input />` to include props...
 
-```js
+```jsx
 <Input placeholder="Please enter question" className="questionInput">
 
 <Input placeholder="Please enter option" className="optionInput">
@@ -203,7 +203,7 @@ In `Home.js`:
 
 Then in `Input.js`
 
-```js
+```jsx
 function Input(props) {
     return (
         <input placeholder={props.placeholder} className={props.className} />
@@ -217,19 +217,19 @@ You can render lists of items using the `map()` function. The map() function acc
 
 e.g.
 
-```js
+```jsx
 [1, 2].map((n) => <p>{n}</p>);
 ```
 
 will result in
 
-```js
+```jsx
 [<p>1</p>, <p>2</p>];
 ```
 
 In Home.js, lets create a dummy list to hold options and render out the list of items.
 
-```js
+```jsx
 function Home() {
     const options = ["option 1", "option 2", "option 3"]
     return (
@@ -256,7 +256,7 @@ For instance if we want to track the options we add, or the question we put in t
 We create state variables using the `useState()` function.
 This function returns a list with 2 items, the state variable (which we can use in jsx for example) and the function used to change the state variable. This list is typically destructured like so:
 
-```js
+```jsx
 const [question, setQuestion] = useState(“”);
 ```
 
@@ -266,7 +266,7 @@ We also want to create a state variable for the options added. We attach a handl
 
 In Home.js
 
-```js
+```jsx
 import { useState } from "react";
 import Input from "../../components/Input";
 
@@ -319,7 +319,7 @@ export default function Home() {
 
 and in `Input.js`
 
-```js
+```jsx
 export default function Input({ className, placeholder, value, setValue }) {
     return (
         <input
@@ -340,7 +340,7 @@ Create a `Home.css` file in /src/Pages/Home
 
 and import it into `Home.js`
 
-```js
+```jsx
 import "./Home.css";
 ```
 
@@ -406,7 +406,7 @@ In the terminal:
 
 Once done... we can use it like any other component e.g.
 
-```js
+```jsx
 import TinderCard from "react-tinder-card";
 
 export default function Vote() {
@@ -478,7 +478,7 @@ and also the styling... make a new Vote.css file in /Vote and import it into Vot
 
 and to import in `Vote.js`:
 
-```js
+```jsx
 import "./Vote.css";
 ```
 
@@ -488,7 +488,7 @@ Next we can work on the Summary Page:
 
 Summary.js
 
-```js
+```jsx
 import "./Summary.css";
 
 export default function Summary() {
@@ -536,4 +536,302 @@ Summary.css
 .votes {
     color: rgb(71, 132, 245);
 }
+```
+
+## React Router
+
+Currently, for us to view the different pages we have to comment out the unwanted page components. Instead of manually changing the pages we want use routes to access different pages e.g. `localhost:3000/vote` or `localhost:3000/summary`.
+
+Let's introduce routes to our web app!
+
+In the terminal:
+
+-   make sure you are in the frontend directory
+-   run `npm i react-router-dom` or `npm install react-router-dom`
+
+In `app.js`
+
+Let's change our pages to use a Router to switch from different pages from react-router.
+
+```jsx
+<Router>
+    <Switch>
+        <Route path="/summary" component={Summary} />
+        <Route path="/vote" component={Vote} />
+        <Route path="/" component={Home} />
+    </Switch>
+</Router>
+```
+
+Your notice that the switch is very similar to if conditions else conditions and the first match is used.
+
+We want to be able to switch from different routes in React to do this we want to use `useHistory()`
+
+```jsx
+const history = useHistory();
+history.push("/summary");
+```
+
+In our demo, we showed that we want use routes to indicate different lobbies inside our web app. e.g. `localhost:3000/ABCDE` where my lobby code is ABCDE
+
+This is called params inside react-router where `:code` is the param name
+```jsx
+<Router>
+    <Switch>
+        <Route path="/result/:code" component={Summary} />
+        <Route path="/:code" component={Vote} />
+        <Route path="/" component={Home} />
+    </Switch>
+</Router>
+```
+
+We can retrieve code from our component by using the hook `useParams()`
+```jsx
+const params = useParams();
+const { code } = params // deconstruct object to get params.code
+```
+
+## Backend
+
+We have a functional app with all it's state. How do we allow multiple people to vote? To do this we want to create a serverside backend where we can store all the votes made by different people.
+
+Checkout the backend folder for this repo for the backend template!
+- Download or git clone the repo (the demo shows the backend folder next to frontend)
+- run `npm i` or `npm install` to install dependencies
+- run `npm start` to start the REST API
+
+### REST API
+
+A REST API is an architectural style for an application program interface (API) that uses HTTP requests to access and use data.
+
+We will only be focusing on the two main methods:
+
+- GET - used to request data from a specified resource
+- POST - used to send data to a server to create/update a resource
+
+You'll notice that in the template we have setup a very basic REST API with all the endpoints that we need.
+
+- POST `/create` - Create a New Lobby
+- POST `/:code` - Update a Lobby Vote Count
+- GET `/:code` - Get Vote Counts from lobby
+
+Let's start implementing our endpoints
+
+First things is we want to store all the lobbies. Since we currently don't have a database we'll just store this as a local variable.
+
+```jsx
+const lobbies = {} // define an empty object to store lobbies
+```
+
+Since we want to store lobbies as a certain object lets store them as the following
+
+```js
+const lobbies = {
+    'ABCDE': {
+        question: "My Question",
+        options: ["1", "2"],
+        results: [
+            {
+                name: "1",
+                votes: 0,
+            },
+            {
+                name: "2",
+                votes: 0,
+            }
+        ]
+    }
+} 
+```
+
+Now we have a basic structure we can implement `/create` what this endpoint does is it would create a new value into lobbies with a new Lobby code
+
+Our `req.body` for this request would be
+
+```js
+req.body = {
+    question: "My Question",
+    options: ["1","2"]
+}
+```
+
+Implementation:
+
+```js
+app.post('/create', (req, res) => {
+    const { question, options } = req.body
+
+    // generate random code
+    const code = generateRandomCode()
+
+    // add a new value to our object using code
+    lobbies[code] = {
+        question,
+        options,
+        results: options.map((item) => {
+            // use map to create our new structure
+            return {
+                name: item,
+                votes: 0,
+            }
+        }),
+    }
+
+    // send back our lobby code
+    res.send(code)
+})
+```
+
+Next is GET `/:code`, we want to return all the information about the lobby to the client. The only major difference is we want to use `req.params`
+
+```js
+app.get('/:code', (req, res) => {
+    const { code } = req.params // get code
+
+    // return 404 Not Found
+    if (lobbies[code] === undefined) {
+        res.sendStatus(404)
+        return
+    }
+
+    // else send the data about lobby
+    res.send(lobbies[code])
+})
+```
+
+The hardest one is to increment vote when someone votes
+
+```js
+app.post('/:code', (req, res) => {
+    const { code } = req.params
+    const { option } = req.body
+
+    // return 404 Not Found
+    if (lobbies[code] === undefined) {
+        res.sendStatus(404)
+        return
+    }
+
+    // increment the vote for the right option
+    lobbies[code].results.map((item) => {
+        if (item.name === option) {
+            item.votes++
+        }
+    })
+}
+```
+
+## Connecting Frontend and Backend
+
+Let install a library called axios that help us call the backend
+- run `npm i axios` in the React app, frontend folder
+
+Let handle when the user clicks submit on the homepage
+```js
+const handleSubmit = () => {
+    axios.post(
+        'http://localhost:3001/create',
+        {
+            question,
+            options,
+        },
+    ).then(res => {
+        history.push('/stats/' + res.data)
+    }).catch(err => {
+        alert(err)
+    })
+}
+```
+
+Before we can call GET `/:code` in the `/stats` page we need to introduce `useEffect()`. useEffect is a hook that allows the user to pass in a function that will be called very render.
+
+```js
+useEffect(() => {
+	// do stuff here
+})
+```
+
+In useEffect it is usually undesireable to call a function everytime when the screen rerenders. So useEffect has a dependency list where it will only call the function when the dependency has been changed. If there is no dependency the function would only be called once when the component loads
+```js
+useEffect(() => {
+	// on component mount
+},[])
+```
+
+Using this we can call axios to call GET `/:code` once when the page loads
+```js
+useEffect(() => {
+    axios.get(
+        'http://localhost:3001/' + code
+    ).then((res) => {
+        setData(res.data)
+    }).catch((err) => {
+        alert(err)
+        history.push('/')
+    })
+}, [])
+```
+
+On the Vote page we want to POST when the user swipes a card
+```js
+const handleSwipe = (direction, card) => {
+    if (direction === 'right') {
+        axios.post('http://localhost:3001/' + code, {
+            option: card,
+        })
+    }
+}
+```
+
+## Socket.IO (If we have time!)
+
+### Backend
+
+Create an event listener for connection and make the user join the lobby code.
+
+```js
+io.on('connection', (socket) => {
+    const { code } = socket.handshake.query
+    socket.join(code)
+})
+```
+
+Create 
+
+```js
+app.post('/:code', (req, res) => {
+    const { code } = req.params
+    const { option } = req.body
+
+    // return 404 Not Found
+    if (lobbies[code] === undefined) {
+        res.sendStatus(404)
+        return
+    }
+
+    // increment the vote for the right option
+    lobbies[code].results.map((item) => {
+        if (item.name === option) {
+            item.votes++
+        }
+    })
+
+    // use socket.io to emit event to lobby
+    io.to(code).emit('data', lobbies[code])
+})
+```
+
+So now on the stats page we can add this
+```js
+// Connect to socket.io backend
+const socket = io('http://localhost:3001/', {
+    query: {
+        code: code,
+    },
+})
+
+// When event data is sent
+socket.on('data', (data) => {
+    setData(data)
+})
 ```
