@@ -61,7 +61,9 @@ brew install node
 
 ## This is the end of the pre-requisites! The steps below are for the practical, and you do NOT have to complete these right now (we'll go through them in the workshop)
 
-# React frontend
+# Project
+
+## React Frontend
 
 React is a JS library for creating user interfaces. It is based around creating components for different parts of your website.
 
