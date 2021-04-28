@@ -61,9 +61,7 @@ brew install node
 
 ## This is the end of the pre-requisites! The steps below are for the practical, and you do NOT have to complete these right now (we'll go through them in the workshop)
 
-# Project
-
-## React Frontend
+# React Frontend
 
 React is a JS library for creating user interfaces. It is based around creating components for different parts of your website.
 
@@ -593,7 +591,7 @@ const params = useParams();
 const { code } = params // deconstruct object to get params.code
 ```
 
-## Backend
+# Backend
 
 We have a functional app with all it's state. How do we allow multiple people to vote? To do this we want to create a serverside backend where we can store all the votes made by different people.
 
@@ -602,7 +600,7 @@ Checkout the backend folder for this repo for the backend template!
 - run `npm i` or `npm install` to install dependencies
 - run `npm start` to start the REST API
 
-### REST API
+## REST API
 
 A REST API is an architectural style for an application program interface (API) that uses HTTP requests to access and use data.
 
