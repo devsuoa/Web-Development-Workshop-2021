@@ -1,0 +1,36 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(29, 29, 29);
+}
+
+.questionInput,
+.optionInput,
+.addButton,
+.createButton {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px 5px;
+    border-radius: 8px;
+    border: none;
+}
+
+.questionInput {
+    width: 100%;
+    font-size: 2rem;
+}
+
+.createButton {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.heading,
+.listItem {
+    font-size: 2rem;
+    color: white;
+}
